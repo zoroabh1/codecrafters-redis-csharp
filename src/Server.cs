@@ -13,7 +13,7 @@ Socket client = server.AcceptSocket(); // wait for client
 
 while (client.Connected)
 {
-    //var buffer = new byte[1024];
-    //await client.ReceiveAsync(buffer);
+    var buffer = new byte[1024];
+    await client.ReceiveAsync(buffer);
     client.Send(Encoding.ASCII.GetBytes("+PONG\r\n"));
 }

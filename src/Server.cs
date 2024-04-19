@@ -22,6 +22,7 @@ static async Task HandleRequest(Socket client)
     {
         var buffer = new byte[1024];
         await client.ReceiveAsync(buffer);
+        Console.WriteLine(buffer.ToString());
         client.Send(Encoding.ASCII.GetBytes("+PONG\r\n"));
     }
 }

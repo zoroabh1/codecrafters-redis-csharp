@@ -20,28 +20,15 @@ async Task HandleRequest(TcpClient client)
 {
     while (client.Connected)
     {
-        byte[] buffer = new byte[1024];
-        int bytes = await client.Client.ReceiveAsync(buffer);
-        Console.WriteLine("buffer : " + Encoding.ASCII.GetString(buffer));
-        var requestData = Encoding.ASCII.GetString(buffer).Split("\r\n");
-        string responseString = "";
-
-        if (requestData.Length > 2)
+        var buffer = new byte[1024];
+        int size = await client.Client.ReceiveAsync(buffer);
+        if (size == 0)
         {
-            string request = requestData[2].ToLower();
-
-            switch (request)
-            {
-                case "ping":
-                    responseString = "+PONG\r\n";
-                    break;
-                case "echo":
-                    responseString = $"${requestData[4].Length}\r\n{requestData[4]}\r\n";
-                    break;
-            }
+            continue;
         }
-
-        await client.Client.SendAsync(Encoding.UTF8.GetBytes(responseString));
+        var request = Encoding.ASCII.GetString(buffer);
+        Console.WriteLine("request : "+request);
+        client.Client.Send(Encoding.ASCII.GetBytes(HandleCommand(buffer)));
     }
 }
 

@@ -27,7 +27,7 @@ async Task HandleRequest(TcpClient client)
             continue;
         }
         var request = Encoding.ASCII.GetString(buffer);
-        Console.WriteLine("request : "+request);
+        //Console.WriteLine("request : "+request);
         client.Client.Send(Encoding.ASCII.GetBytes(HandleCommand(buffer)));
     }
 }

@@ -18,7 +18,7 @@ namespace codecrafters_redis.src
         public string ParseCommand(byte[] bytes)
         {
             string input = Encoding.UTF8.GetString(bytes);
-            Console.WriteLine("input from client : "+input);
+            //Console.WriteLine("input from client : "+input);
             var command = input.Split("\r\n").ToList() ?? new();
             return GetCommandResult(command);
         }
@@ -53,7 +53,7 @@ namespace codecrafters_redis.src
                 "PING","ECHO"
             };
 
-            foreach ( var commandType in commandSplit)
+            foreach (var commandType in commandSplit)
             {
                 if (commandList.Contains(commandType.ToUpper()))
                 {

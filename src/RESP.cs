@@ -58,7 +58,7 @@ namespace codecrafters_redis.src
                 if (commandList.Contains(commandType.ToUpper()))
                 {
                     Console.WriteLine("Found command type in list : "+commandType.ToUpper());
-                    Enum.TryParse(commandType, out CommandType result);
+                    Enum.TryParse(commandType.ToUpper(), out CommandType result);
 
                     return result;
                 }

@@ -22,10 +22,10 @@ async Task HandleRequest(TcpClient client)
     {
         var buffer = new byte[1024];
         int size = await client.Client.ReceiveAsync(buffer);
-        //if(size == 0)
-        //{
-        //    continue;
-        //}
+        if (size == 0)
+        {
+            continue;
+        }
         var request = Encoding.ASCII.GetString(buffer);
         Console.WriteLine("request : "+request);
         client.Client.Send(Encoding.ASCII.GetBytes(HandleCommand(buffer)));

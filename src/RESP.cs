@@ -25,18 +25,24 @@ namespace codecrafters_redis.src
 
         private string GetCommandResult(List<string> commandSplit)
         {
-            List<String> response = new List<String>();
-            var commandType = GetCommandType(commandSplit);
-            switch (commandType)
+            var responseString = "";
+            if(commandSplit.Count > 2)
             {
-                case CommandType.PING:
-                    return "+PONG\r\n";
-                case CommandType.ECHO:
-                    return $"${commandSplit[4].Length}\r\n{commandSplit[4]}\r\n";
-                case CommandType.ERROR:
-                default:
-                    return "";
+                var commandType = GetCommandType(commandSplit);
+                switch (commandType)
+                {
+                    case CommandType.PING:
+                        return "+PONG\r\n";
+                    case CommandType.ECHO:
+                        return $"${commandSplit[4].Length}\r\n{commandSplit[4]}\r\n";
+                    case CommandType.ERROR:
+                    default:
+                        return "";
+                }
             }
+
+            return responseString;
+            
         }
 
         private CommandType GetCommandType(List<string> commandSplit)

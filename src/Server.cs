@@ -11,24 +11,24 @@ TcpListener server = new TcpListener(IPAddress.Any, 6379);
 server.Start();
 while (true)
 {
-    Socket client = server.AcceptSocket(); // wait for client
-    HandleRequest(client);
+    TcpClient client = server.AcceptTcpClient(); // wait for client
+    Task.Run(async () => await HandleRequest(client));
 }
 
 
-async Task HandleRequest(Socket client)
+async Task HandleRequest(TcpClient client)
 {
     while (client.Connected)
     {
         var buffer = new byte[1024];
-        int size = await client.ReceiveAsync(buffer);
-        if(size == 0)
-        {
-            continue;
-        }
+        int size = await client.Client.ReceiveAsync(buffer);
+        //if(size == 0)
+        //{
+        //    continue;
+        //}
         var request = Encoding.ASCII.GetString(buffer);
         Console.WriteLine("request : "+request);
-        client.Send(Encoding.ASCII.GetBytes(HandleCommand(buffer)));
+        client.Client.Send(Encoding.ASCII.GetBytes(HandleCommand(buffer)));
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using codecrafters_redis.src.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,7 @@ namespace codecrafters_redis.src
                     case CommandType.ECHO:
                         return $"${commandSplit[4].Length}\r\n{commandSplit[4]}\r\n";
                     case CommandType.SET:
-                        return Storage.SetData(commandSplit[4], commandSplit[6]);
+                        return Storage.SetData(GetSetCommand(commandSplit));
                     case CommandType.GET:
                         return Storage.Getdata(commandSplit[4]);
                     case CommandType.ERROR:
@@ -71,6 +72,19 @@ namespace codecrafters_redis.src
             }
 
             return CommandType.ERROR;
+        }
+
+        private SetCommand GetSetCommand(List<string> commandSplit)
+        {
+            SetCommand command = new SetCommand();
+            command.Key = commandSplit[4];
+            command.Value = commandSplit[6];
+            if (commandSplit.Count>8 && commandSplit[8].ToUpper() == "PX")
+            {
+                command.Expiry = int.Parse(commandSplit[9]);
+            }
+
+            return command;
         }
     }
 }

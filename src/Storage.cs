@@ -1,4 +1,5 @@
-﻿using System;
+﻿using codecrafters_redis.src.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,10 +25,20 @@ namespace codecrafters_redis.src
             }
         }
 
-        public static string SetData(string key, string value)
+        public static string SetData(SetCommand command)
         {
-            storage[key] = value;
+            storage[command.Key] = command.Value;
+            if (command.Expiry != 0)
+            {
+                Task.Run(async () => await DeleteData(command.Key,command.Expiry));
+            }
             return "+OK\r\n";
+        }
+
+        private static async Task DeleteData(string key, int expiryInMilliseconds=0)
+        {
+            await Task.Delay(expiryInMilliseconds);
+            storage.Remove(key);
         }
     }
 }

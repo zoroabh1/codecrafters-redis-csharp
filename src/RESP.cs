@@ -82,7 +82,7 @@ namespace codecrafters_redis.src
             if (commandSplit.Count>9 && commandSplit[8].ToUpper() == "PX")
             {
                 Console.WriteLine($"key : {command.Key}, value : {command.Value}");
-                command.Expiry = int.Parse(commandSplit[9]);
+                command.Expiry = int.Parse(commandSplit[10]);
                 Console.WriteLine($"key : {command.Key}, value : {command.Value}, expiry {command.Expiry}");
             }
 

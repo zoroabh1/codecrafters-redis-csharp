@@ -9,7 +9,6 @@ Console.WriteLine("Logs from your program will appear here!");
 // Uncomment this block to pass the first stage
 TcpListener server = new TcpListener(IPAddress.Any, 6379);
 server.Start();
-
 while (true)
 {
     Socket client = server.AcceptSocket(); // wait for client
@@ -27,8 +26,8 @@ async Task HandleRequest(Socket client)
         {
             continue;
         }
-        //var request = Encoding.ASCII.GetString(buffer);
-        //Console.WriteLine("request : "+request);
+        var request = Encoding.ASCII.GetString(buffer);
+        Console.WriteLine("request : "+request);
         client.Send(Encoding.ASCII.GetBytes(HandleCommand(buffer)));
     }
 }

@@ -29,6 +29,7 @@ namespace codecrafters_redis.src
             if(commandSplit.Count > 2)
             {
                 var commandType = GetCommandType(commandSplit);
+                Console.WriteLine($"got command type : {commandType}");
                 switch (commandType)
                 {
                     case CommandType.PING:
@@ -47,11 +48,14 @@ namespace codecrafters_redis.src
 
         private CommandType GetCommandType(List<string> commandSplit)
         {
-            var commandList = Enum.GetValues(typeof(CommandType)).Cast<CommandType>().Select(v => v.ToString()).ToList();
+            var commandList = new List<string>()
+            {
+                "PING","ECHO"
+            };
 
             foreach ( var commandType in commandSplit)
             {
-                if (commandList.Contains(commandType))
+                if (commandList.Contains(commandType.ToUpper()))
                 {
                     Enum.TryParse(commandType, out CommandType result);
 

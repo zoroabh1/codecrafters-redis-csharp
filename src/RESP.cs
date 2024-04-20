@@ -79,8 +79,9 @@ namespace codecrafters_redis.src
             SetCommand command = new SetCommand();
             command.Key = commandSplit[4];
             command.Value = commandSplit[6];
-            if (commandSplit.Count>8 && commandSplit[8].ToUpper() == "PX")
+            if (commandSplit.Count>9 && commandSplit[8].ToUpper() == "PX")
             {
+                Console.WriteLine($"key : {command.Key}, value : {command.Value}");
                 command.Expiry = int.Parse(commandSplit[9]);
                 Console.WriteLine($"key : {command.Key}, value : {command.Value}, expiry {command.Expiry}");
             }

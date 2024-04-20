@@ -10,6 +10,8 @@ namespace codecrafters_redis.src
     {
         PING,
         ECHO,
+        SET,
+        GET,
         ERROR
     }
     public class RESP
@@ -36,6 +38,10 @@ namespace codecrafters_redis.src
                         return "+PONG\r\n";
                     case CommandType.ECHO:
                         return $"${commandSplit[4].Length}\r\n{commandSplit[4]}\r\n";
+                    case CommandType.SET:
+                        return Storage.SetData(commandSplit[2], commandSplit[4]);
+                    case CommandType.GET:
+                        return "$3\r\nbar\r\n";
                     case CommandType.ERROR:
                     default:
                         return "";
@@ -48,10 +54,10 @@ namespace codecrafters_redis.src
 
         private CommandType GetCommandType(List<string> commandSplit)
         {
-            var commandList = new List<string>()
-            {
-                "PING","ECHO"
-            };
+            var commandList = Enum.GetValues(typeof(CommandType))
+                                    .Cast<CommandType>()
+                                    .Select(v => v.ToString().ToUpper())
+                                    .ToList();
 
             foreach (var commandType in commandSplit)
             {

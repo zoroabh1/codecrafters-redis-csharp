@@ -41,7 +41,7 @@ namespace codecrafters_redis.src
                     case CommandType.SET:
                         return Storage.SetData(commandSplit[2], commandSplit[4]);
                     case CommandType.GET:
-                        return "$3\r\nbar\r\n";
+                        return Storage.Getdata(commandSplit[2]);
                     case CommandType.ERROR:
                     default:
                         return "";

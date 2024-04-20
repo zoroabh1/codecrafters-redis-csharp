@@ -27,10 +27,6 @@ namespace codecrafters_redis.src
         public static string SetData(string key, string value)
         {
             storage[key] = value;
-            if(storage.ContainsKey(key))
-            {
-                Console.WriteLine("value got set : " + value);
-            }
             return "+OK\r\n";
         }
     }

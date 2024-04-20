@@ -39,9 +39,9 @@ namespace codecrafters_redis.src
                     case CommandType.ECHO:
                         return $"${commandSplit[4].Length}\r\n{commandSplit[4]}\r\n";
                     case CommandType.SET:
-                        return Storage.SetData(commandSplit[2], commandSplit[4]);
+                        return Storage.SetData(commandSplit[4], commandSplit[6]);
                     case CommandType.GET:
-                        return Storage.Getdata(commandSplit[2]);
+                        return Storage.Getdata(commandSplit[4]);
                     case CommandType.ERROR:
                     default:
                         return "";
